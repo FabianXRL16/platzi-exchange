@@ -18,8 +18,8 @@
         <th><img :src="`https://static.coincap.io/assets/icons/${asset.symbol.toLowerCase()}@2x.png`" :alt="asset.name"></th>
         <td><b>#{{asset.rank}}</b></td>
         <td>{{asset.name}}</td>
-        <td>{{asset.priceUsd}}</td>
-        <td>{{Math.floor(asset.marketCapUsd)}}</td>
+        <td>{{asset.priceUsd | dollar}}</td>
+        <td>{{asset.marketCapUsd | dollar}}</td>
         <td>{{asset.volumeUsd24Hr}}</td>
         <td class="hidden sm:block"></td>
       </tr>
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+
 export default {
   name: "PxAssetsTable",
 
