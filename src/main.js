@@ -5,9 +5,11 @@ import router from "@/router"
 
 import "./assets/styles.css"
 
-import {dollarFilter} from "@/filters"
+import {dollarFilter, percentFilter} from "@/filters"
 
 Vue.filter("dollar",dollarFilter)
+Vue.filter("percent",percentFilter)
+
 Vue.config.productionTip = false
 
 new Vue({

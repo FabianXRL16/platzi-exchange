@@ -20,7 +20,11 @@
         <td>{{asset.name}}</td>
         <td>{{asset.priceUsd | dollar}}</td>
         <td>{{asset.marketCapUsd | dollar}}</td>
-        <td>{{asset.volumeUsd24Hr}}</td>
+        <td :class="asset.changePercent24Hr >= 0 ?
+          `text-green-600 font-medium` : 
+          `text-blue-600 font-medium`">
+          {{asset.changePercent24Hr | percent}}
+          </td>
         <td class="hidden sm:block"></td>
       </tr>
     </tbody>
@@ -37,7 +41,7 @@ export default {
       type: Array,
       default: () => []
     }
-  }
+  },
 };
 </script>
 
