@@ -13,14 +13,14 @@
         <td class="hidden sm:block"></td>
       </tr>
     </thead>
-    <tbody>
+    <tbody v-for="asset in assets" :key="asset.id">
       <tr class="border-b border-gray-200 hover:bg-gray-100 hover:bg-orange-100">
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <th><img :src="`https://static.coincap.io/assets/icons/${asset.symbol.toLowerCase()}@2x.png`" :alt="asset.name"></th>
+        <td><b>#{{asset.rank}}</b></td>
+        <td>{{asset.name}}</td>
+        <td>{{asset.priceUsd}}</td>
+        <td>{{Math.floor(asset.marketCapUsd)}}</td>
+        <td>{{asset.volumeUsd24Hr}}</td>
         <td class="hidden sm:block"></td>
       </tr>
     </tbody>

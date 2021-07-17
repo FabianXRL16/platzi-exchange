@@ -1,6 +1,6 @@
 <template>
   <div>
-    <px-assets-table />
+    <px-assets-table :assets="assets" />
   </div>
 </template>
 
