@@ -21,8 +21,8 @@
         <td>{{asset.priceUsd | dollar}}</td>
         <td>{{asset.marketCapUsd | dollar}}</td>
         <td :class="asset.changePercent24Hr >= 0 ?
-          `text-green-600 font-medium` : 
-          `text-blue-600 font-medium`">
+          `text-green-600 font-medium up` : 
+          `text-blue-600 font-medium down`">
           {{asset.changePercent24Hr | percent}}
           </td>
         <td class="hidden sm:block"></td>
