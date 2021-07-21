@@ -17,7 +17,7 @@
       <tr class="border-b border-gray-200 hover:bg-gray-100 hover:bg-orange-100">
         <th><img :src="`https://static.coincap.io/assets/icons/${asset.symbol.toLowerCase()}@2x.png`" :alt="asset.name"></th>
         <td><b>#{{asset.rank}}</b></td>
-        <td>{{asset.name}}</td>
+        <td><router-link class="text-green-600 font-medium" :to="{name: 'coin-detail', params: {id: asset.id}}">{{asset.name}}</router-link></td>
         <td>{{asset.priceUsd | dollar}}</td>
         <td>{{asset.marketCapUsd | dollar}}</td>
         <td :class="asset.changePercent24Hr >= 0 ?
