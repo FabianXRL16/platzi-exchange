@@ -28,15 +28,15 @@
             </li>
             <li class="flex justify-between">
               <b class="text-gray-600 mr-10 uppercase">Precio más bajo</b>
-              <span>{{min | dollar }}</span>
+              <span>{{ min | dollar }}</span>
             </li>
             <li class="flex justify-between">
               <b class="text-gray-600 mr-10 uppercase">Precio más alto</b>
-              <span>{{max | dollar }}</span>
+              <span>{{ max | dollar }}</span>
             </li>
             <li class="flex justify-between">
               <b class="text-gray-600 mr-10 uppercase">Precio Promedio</b>
-              <span>{{avg | dollar }}</span>
+              <span>{{ avg | dollar }}</span>
             </li>
             <li class="flex justify-between">
               <b class="text-gray-600 mr-10 uppercase">Variación 24hs</b>
@@ -48,7 +48,9 @@
         <div class="my-10 sm:mt-0 flex flex-col justify-center text-center">
           <button
             class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-          >Cambiar</button>
+          >
+            Cambiar
+          </button>
 
           <div class="flex flex-row my-5">
             <label class="w-full" for="convertValue">
@@ -68,47 +70,48 @@
 </template>
 
 <script>
-import api from "@/api"
+import api from "@/api";
 
 export default {
-  name: 'CoinDetail',
-  data(){
-    return{
+  name: "CoinDetail",
+  data() {
+    return {
       asset: {},
-      history: []
-    }
+      history: [],
+    };
   },
-  computed:{
-    min(){
+  computed: {
+    min() {
       return Math.min(
-        ...this.history.map(h=>parseFloat(h.priceUsd).toFixed(2))
-      )
+        ...this.history.map((h) => parseFloat(h.priceUsd).toFixed(2))
+      );
     },
-    max(){
+    max() {
       return Math.max(
-        ...this.history.map(h=>parseFloat(h.priceUsd).toFixed(2))
-      )
+        ...this.history.map((h) => parseFloat(h.priceUsd).toFixed(2))
+      );
     },
-    avg(){
-      return Math.abs(
-        ...this.history.map(h=>parseFloat(h.priceUsd).toFixed(2))
-      )
-    }
+    avg() {
+      return (
+        this.history.reduce((a, b) => a + parseFloat(b.priceUsd), 0) /
+        this.history.length
+      );
+    },
   },
-  created(){
+  created() {
     this.getAsset();
   },
-  methods:{
-    getAsset(){
-      const id = this.$route.params.id
-      Promise.all([api.getCoin(id),api.getAssetHistory(id)])
-        .then(([asset,history])=>{
-          this.asset = asset,
-          this.history = history
-        })
-    }
-  }
-}
+  methods: {
+    getAsset() {
+      const id = this.$route.params.id;
+      Promise.all([api.getCoin(id), api.getAssetHistory(id)]).then(
+        ([asset, history]) => {
+          (this.asset = asset), (this.history = history);
+        }
+      );
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -117,4 +120,3 @@ td {
   text-align: center;
 }
 </style>
-
