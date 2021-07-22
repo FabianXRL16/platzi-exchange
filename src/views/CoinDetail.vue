@@ -142,6 +142,11 @@ export default {
   created() {
     this.getAsset();
   },
+  watch:{
+    $route(){
+      this.getAsset();
+    }
+  },
   methods: {
     getAsset() {
       const id = this.$route.params.id;
