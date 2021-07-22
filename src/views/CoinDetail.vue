@@ -68,6 +68,7 @@
           <span class="text-xl"></span>
         </div>
       </div>
+      
     </template>
   </div>
 </template>
@@ -101,6 +102,14 @@ export default {
         this.history.length
       );
     },
+    newData() {
+      let data = new Object
+      for (let i = 0; i < this.history.length; i++) {
+        let price = parseFloat(this.history[i].priceUsd).toFixed(2)
+        data[i] = { [this.history[i].date]: price};
+      }
+      return data;
+    },
   },
   created() {
     this.getAsset();
@@ -108,12 +117,11 @@ export default {
   methods: {
     getAsset() {
       const id = this.$route.params.id;
-      Promise.all([api.getCoin(id), api.getAssetHistory(id)]).then(
-        ([asset, history]) => {
+      Promise.all([api.getCoin(id), api.getAssetHistory(id)])
+        .then(([asset, history]) => {
           (this.asset = asset), (this.history = history);
-        }
-      )
-      .finally(()=> this.isLoading = false);
+        })
+        .finally(() => (this.isLoading = false));
     },
   },
 };
