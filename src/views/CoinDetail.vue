@@ -68,21 +68,49 @@
           <span class="text-xl"></span>
         </div>
       </div>
-      
+      <h3 class="text-xl my-10">Mejores Ofertas de Cambio</h3>
+      <table>
+        <tr
+          v-for="m in markets"
+          :key="`${m.exchangeId}-${m.priceUsd}`"
+          class="border-b"
+        >
+          <td>
+            <b>{{ m.exchangeId }}</b>
+          </td>
+          <td>{{ m.priceUsd | dollar }}</td>
+          <td>{{ m.baseSymbol }} / {{ m.quoteSymbol }}</td>
+          <td>
+            <px-buttom
+              v-if="!m.url"
+              @custom-click="getWebSite(m)"
+              :is-loading="m.isLoading || false"
+            >
+              <template v-if="!m.isLoading">Obtener Link</template>
+            </px-buttom>
+            <a v-else class="hover:underline text-yellow-500" target="_blanck">{{
+              m.url
+            }}</a>
+          </td>
+        </tr>
+      </table>
     </template>
   </div>
 </template>
 
 <script>
 import api from "@/api";
+import PxButtom from "@/components/global/PxButtom";
 
 export default {
   name: "CoinDetail",
+  components: { PxButtom },
   data() {
     return {
       isLoading: true,
       asset: {},
       history: [],
+      markets: [],
     };
   },
   computed: {
@@ -103,10 +131,10 @@ export default {
       );
     },
     newData() {
-      let data = new Object
+      let data = new Object();
       for (let i = 0; i < this.history.length; i++) {
-        let price = parseFloat(this.history[i].priceUsd).toFixed(2)
-        data[i] = { [this.history[i].date]: price};
+        let price = parseFloat(this.history[i].priceUsd).toFixed(2);
+        data[i] = { [this.history[i].date]: price };
       }
       return data;
     },
@@ -117,11 +145,21 @@ export default {
   methods: {
     getAsset() {
       const id = this.$route.params.id;
-      Promise.all([api.getCoin(id), api.getAssetHistory(id)])
-        .then(([asset, history]) => {
-          (this.asset = asset), (this.history = history);
+      Promise.all([api.getCoin(id), api.getAssetHistory(id), api.getMarkets(id)])
+        .then(([asset, history, markets]) => {
+          (this.asset = asset),
+            (this.history = history),
+            (this.markets = markets);
         })
         .finally(() => (this.isLoading = false));
+    },
+    getWebSite(exchange) {
+      this.$set(exchange, "isLoading", true)
+      return api.getExchange(exchange.exchangeId).then((res) => {
+        this.$set(exchange, "url", res.exchangeUrl)
+      }).finally(()=>{
+        this.$set(exchange, "isLoading", false)
+      });
     },
   },
 };
