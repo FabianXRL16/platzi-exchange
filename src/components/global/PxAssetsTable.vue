@@ -28,7 +28,7 @@
           </td>
         <td class="hidden sm:block"></td>
         <td>
-          <px-buttom @click="coinDetail(asset.id)">
+          <px-buttom @custom-click="coinDetail(asset.id)">
             <slot><p>Detalle<p/></slot>
           </px-buttom>
         </td>
