@@ -11,10 +11,18 @@
         <th>Cap. de Mercado</th>
         <th>Variación 24hs</th>
         <th></th>
-        <td class="hidden sm:block"></td>
+        <td class="hidden sm:block">
+          <input
+            class="bg-gray-100 focus:outline-none border-b border-gray-400 py-2 px-4 block w-full appearance-none leading-normal"
+            id="filter"
+            placeholder="Buscar..."
+            type="text"
+            v-model="filter"
+          />
+        </td>
       </tr>
     </thead>
-    <tbody v-for="asset in assets" :key="asset.id">
+    <tbody v-for="asset in filteredAssets" :key="asset.id">
       <tr class="border-b border-gray-200 hover:bg-gray-100 hover:bg-orange-100">
         <th><img :src="`https://static.coincap.io/assets/icons/${asset.symbol.toLowerCase()}@2x.png`" :alt="asset.name"></th>
         <td><b>#{{asset.rank}}</b></td>
@@ -26,7 +34,8 @@
           `text-blue-600 font-medium down`">
           {{asset.changePercent24Hr | percent}}
           </td>
-        <td class="hidden sm:block"></td>
+        <td class="hidden sm:block">
+        </td>
         <td>
           <px-buttom @custom-click="coinDetail(asset.id)">
             <slot><p>Detalle<p/></slot>
@@ -47,6 +56,22 @@ export default {
     assets: {
       type: Array,
       default: () => []
+    }
+  },
+  data(){
+    return{
+      filter: ""
+    }
+  },
+  computed:{
+    filteredAssets(){
+      if(!this.filter) {
+        return this.assets
+      }
+      return this.assets.filter(
+        a => a.symbol.toLowerCase().includes(this.filter.toLowerCase()) ||
+        a.name.toLowerCase().includes(this.filter.toLowerCase())
+      )
     }
   },
   methods:{
