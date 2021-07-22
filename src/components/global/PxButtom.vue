@@ -12,7 +12,7 @@ export default {
   name: "PxButtom",
   methods: {
     onClick() {
-      this.$emit("click");
+      this.$emit("custom-click");
     },
   },
 };
