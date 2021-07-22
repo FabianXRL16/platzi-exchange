@@ -10,6 +10,7 @@
         <th>Precio</th>
         <th>Cap. de Mercado</th>
         <th>Variación 24hs</th>
+        <th></th>
         <td class="hidden sm:block"></td>
       </tr>
     </thead>
@@ -26,22 +27,33 @@
           {{asset.changePercent24Hr | percent}}
           </td>
         <td class="hidden sm:block"></td>
+        <td>
+          <px-buttom @click="coinDetail(asset.id)">
+            <slot><p>Detalle<p/></slot>
+          </px-buttom>
+        </td>
       </tr>
     </tbody>
   </table>
 </template>
 
 <script>
+import PxButtom from './PxButtom.vue';
 
 export default {
   name: "PxAssetsTable",
-
+  components:{PxButtom},
   props: {
     assets: {
       type: Array,
       default: () => []
     }
   },
+  methods:{
+    coinDetail(id){
+      this.$router.push({name: "coin-detail", params: {id: id}})
+    }
+  }
 };
 </script>
 
